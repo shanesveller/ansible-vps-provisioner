@@ -1,0 +1,29 @@
+---
+- hosts: nginx_servers
+  connection: ssh
+
+  vars:
+    passenger_max_pool_size: "4"
+    passenger_max_requests:  "2000"
+    passenger_version:       "4.0.36"
+    ruby_location:           "/opt/rubies/2.1.0"
+    global_ruby_version: 2.1.0
+    ruby-build_version: 'v20140110.1'
+
+    mumble_server:
+      listen_hostname: 'vagrant.dev'
+      listen_port: 64738
+      root_password: 'CHANGEME'
+      server_password: 'CHANGEME'
+      max_users: 100
+      max_bandwidth: 72000
+
+  roles:
+    - common
+    - deploy-user
+    - ssh
+    - ruby
+    - java
+    - nginx-passenger
+    - docker
+    - mumble-server

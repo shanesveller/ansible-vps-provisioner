@@ -1,0 +1,32 @@
+---
+- apt: pkg={{ item }} state=latest
+  with_items:
+    - apache2
+    - libapache2-mod-php5
+    - apache2-mpm-prefork
+    - php5-mysql
+    - phpmyadmin
+
+- template: src=apache-site.j2 dest=/etc/apache2/sites-available/{{item}} owner=root group=root mode=0644
+  with_items:
+  - ithato.com
+  - fever.shanesveller.com
+
+- file: dest=/var/www owner=www-data group=www-data recurse=true state=directory
+
+- command: /usr/sbin/a2ensite {{item}} creates=/etc/apache2/sites-enabled/{{item}}
+  with_items:
+  - ithato.com
+  - fever.shanesveller.com
+- command: /usr/sbin/a2dissite {{item}} removes=/etc/apache2/sites-enabled/{{item}}
+  with_items:
+  - 000-default
+
+- command: /usr/sbin/a2enmod {{item}} creates=/etc/apache2/mods-enabled/{{item}}.load
+  with_items:
+  - rewrite
+  - headers
+  - expires
+  - deflate
+
+- service: name=apache2 enabled=yes state=restarted

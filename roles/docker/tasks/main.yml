@@ -1,0 +1,31 @@
+---
+- name: install kernel extensions required for Docker
+  apt: pkg=linux-image-extra-{{ ansible_kernel }} state=installed
+
+- name: install add-apt-repository command
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - python-software-properties
+  - software-properties-common
+  - python-pycurl
+
+- name: remove old Docker PPA for <=0.5
+  apt_repository: repo=ppa:dotcloud/lxc-docker state=absent
+
+- name: add Docker 0.6 signing key
+  apt_key: url=https://get.docker.io/gpg state=present
+
+- name: add Docker 0.6 APT repo
+  apt_repository: repo='deb https://get.docker.io/ubuntu docker main' state=present
+
+- name: install Docker
+  apt: pkg=lxc-docker state=latest update_cache=yes
+
+- name: create Docker user group
+  group: name=docker state=present system=yes
+
+- name: allow Vagrant access to Docker
+  user: name=vagrant groups=docker append=yes
+  when: ansible_virtualization_type == "virtualbox"
+
+# TODO: restart docker daemon

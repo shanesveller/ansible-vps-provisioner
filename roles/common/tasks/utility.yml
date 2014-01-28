@@ -1,0 +1,8 @@
+- apt: pkg=$item state=latest
+  with_items:
+  - byobu
+  - htop
+  - tmux
+  - debfoster
+  - deborphan
+  - software-properties-common

@@ -1,0 +1,15 @@
+---
+- name: Enter new hostname in /etc
+  template: src=hostname.j2
+            dest=/etc/hostname
+            owner=root
+            group=root
+            mode=0644
+  notify: Set hostname from /etc
+- name: Enter new hostname in hosts file
+  template: src=hosts.j2
+            dest=/etc/hosts
+            owner=root
+            group=root
+            mode=0644
+- meta: flush_handlers

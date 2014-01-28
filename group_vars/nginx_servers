@@ -1,0 +1,4 @@
+backup_manager:
+  blacklist: "/var/archives"
+  directories: "/etc /var/www/"
+  databases: ""

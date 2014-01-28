@@ -1,0 +1,8 @@
+---
+- apt: pkg={{item}} state=latest
+  with_items:
+  - collectd
+
+- template: src=collectd.conf.j2 dest=/etc/collectd/collectd.conf owner=root group=root mode=0644
+
+- service: name=collectd enabled=yes state=restarted

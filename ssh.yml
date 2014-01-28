@@ -1,0 +1,18 @@
+---
+- hosts: servers
+  connection: ssh
+
+  user: root
+
+  vars:
+    new_ssh_port: 2222 #CHANGEME
+
+  tasks:
+    - name: Reconfigure SSH to only allow access using key-based authentication
+      lineinfile: dest=/etc/ssh/sshd_config
+                  regexp="Port"
+                  line="Port {{new_ssh_port}}"
+      notify: Restart SSH
+
+  roles:
+  - ssh

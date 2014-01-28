@@ -1,0 +1,29 @@
+---
+
+- name: Install MySQL server
+  apt: pkg=mysql-server state=latest
+
+- name: Install MySQL client
+  apt: pkg=mysql-client state=latest
+
+- name: Install MySQL client SDK
+  apt: pkg=libmysqlclient-dev state=latest
+
+- name: Install python MySQL SDK
+  apt: pkg=python-mysqldb state=latest
+
+- mysql_user: name=root password={{mysql_root_password}}
+- template: src=password.cnf.j2 dest=/root/.my.cnf owner=root group=root mode=0600
+
+- name: Create Mysql configuration file
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf
+  notify:
+  - restart mysql
+
+- name: Create Mysql (debian) configuration file
+  template: src=debian.cnf.j2 dest=/etc/mysql/debian.cnf
+  notify:
+  - restart mysql
+
+- name: Start Mysql Service
+  service: name=mysql state=started enabled=true

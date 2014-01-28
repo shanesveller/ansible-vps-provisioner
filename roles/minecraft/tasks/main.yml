@@ -1,0 +1,17 @@
+---
+- get_url: url=$pack_url dest=/tmp/$pack_name-$pack_version.zip
+           #sha256sum=$pack_sha
+- apt: pkg=$item state=latest install_recommends=no
+  with_items:
+  - openjdk-7-jre-headless
+  - tmux
+  - unzip
+- user: name=minecraft comment="Minecraft Server" system=yes home=$pack_destination
+- file: dest=$pack_destination state=directory owner=minecraft group=minecraft mode=0755
+- file: dest=$pack_destination state=directory owner=minecraft group=minecraft recurse=yes
+- command: /usr/bin/unzip /tmp/$pack_name-$pack_version.zip -d $pack_destination creates=$pack_destination/ftbserver.jar
+  sudo: yes
+  sudo_user: minecraft
+- template: src=upstart.j2 dest=/etc/init/minecraft-server.conf owner=root group=root mode=0644
+- template: src=tmux-launch.j2 dest=$pack_destination/launch.sh owner=minecraft group=minecraft mode=0755
+- service: name=minecraft-server enabled=yes state=started

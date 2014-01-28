@@ -1,0 +1,9 @@
+[all:vars]
+ansible_ssh_user=root
+ansible_ssh_port=2222
+
+[servers:children]
+nginx_servers
+
+[nginx_servers]
+myvps.example.com new_hostname=mynewhostname.com new_short_hostname=mynewhostname

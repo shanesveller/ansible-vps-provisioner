@@ -1,0 +1,23 @@
+#!/bin/sh
+
+java \
+  -d64 -server \
+        -Xms200m -Xmx500m \
+        -XX:+UseAdaptiveGCBoundary \
+        -XX:TargetSurvivorRatio=90 \
+        -XX:NewSize=114m  \
+        -XX:SurvivorRatio=1 \
+        -XX:CompileThreshold=300 \
+        -XX:+UseConcMarkSweepGC -XX:+UseParNewGC \
+        -XX:CMSInitiatingOccupancyFraction=80 \
+\
+        -XX:SoftRefLRUPolicyMSPerMB=0 \
+        -XX:MaxPermSize=150m \
+        -XX:+UseParNewGC \
+        -XX:MaxHeapFreeRatio=25 \
+        -XX:MinHeapFreeRatio=21 \
+        -XX:+DisableExplicitGC \
+        -XX:MaxTenuringThreshold=4 \
+        -XX:+PrintHeapAtGC -XX:+PrintTenuringDistribution \
+        -XX:+PrintCommandLineFlags -XX:+PrintGCDetails -Xloggc:GC.log \
+        -jar ftbserver.jar nogui 2>&1 | logger -t minecraft

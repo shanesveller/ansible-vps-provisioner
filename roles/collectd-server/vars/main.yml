@@ -1,0 +1,4 @@
+---
+collectd_container: lopter/collectd-graphite
+collectd_port: 48911
+collectd_web_port: 48823

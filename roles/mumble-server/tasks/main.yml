@@ -1,0 +1,7 @@
+---
+- apt: pkg=mumble-server state=latest
+- template: src=mumble-server-ini.j2 dest=/etc/mumble-server.ini owner=root group=mumble-server mode=0640
+  notify: restart mumble-server
+- service: name=mumble-server enabled=yes state=started
+- command: /usr/sbin/murmurd -ini /etc/mumble-server.ini -supw '{{mumble_server.root_password}}'
+  notify: restart mumble-server

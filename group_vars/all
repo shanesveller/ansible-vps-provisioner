@@ -1,0 +1,19 @@
+---
+s3_destination: CHANGEME
+s3_access: CHANGEME
+s3_secret: CHANGEME
+new_hostname: CHANGEME
+new_short_hostname: CHANGEME
+mysql_root_password: CHANGEME
+pgsql_root_password: CHANGEME
+mumble_server:
+  listen_hostname: 'CHANGEME'
+  listen_port: 64738
+  root_password: 'CHANGEME'
+  server_password: ''
+  max_users: 100
+  max_bandwitdth: 72000
+backup_manager:
+  blacklist: "/var/archives"
+  directories: "/etc"
+  databases: ""

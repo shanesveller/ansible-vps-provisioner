@@ -1,0 +1,26 @@
+---
+- name: Install git
+  apt: pkg=git-core state=latest
+
+- name: Install etckeeper
+  apt: pkg=etckeeper state=latest
+
+- name: Uninitialize etckeeper (bzr version)
+  command: /usr/bin/etckeeper uninit -f removes=/etc/.bzr
+
+- name: Remove bazaar
+  apt: pkg=bzr state=absent
+
+- name: Configure etckeeper to use git
+  copy: dest=/etc/etckeeper/etckeeper.conf
+        src=etckeeper.conf
+        mode=0644
+        owner=root
+        group=root
+
+- name: Configure git user info
+  command: git config --global user.name 'Shane Sveller'
+  command: git config --global user.email 'shanesveller@gmail.com'
+
+- name: Initialize etckeeper (git version)
+  command: /usr/bin/etckeeper init creates=/etc/.git

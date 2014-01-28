@@ -1,0 +1,3 @@
+---
+- name: Set hostname from /etc
+  command: /bin/hostname -F /etc/hostname

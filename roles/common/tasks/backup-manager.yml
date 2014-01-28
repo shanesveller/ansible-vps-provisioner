@@ -1,0 +1,11 @@
+---
+- name: Install backup-manager
+  apt: pkg=backup-manager state=latest
+  apt: pkg=libnet-amazon-s3-perl state=latest
+
+- name: Configure backup-manager to use S3
+  template: src=backup-manager-conf.j2
+            dest=/etc/backup-manager.conf
+            owner=root
+            group=root
+            mode=0600
