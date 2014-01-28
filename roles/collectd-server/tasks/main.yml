@@ -1,6 +1,0 @@
----
-- template: src=collectd.conf.j2 dest=/etc/init/docker-collectd.conf
-        owner=root
-        group=root
-        mode=0644
-- service: name=docker-collectd state=started enabled=yes
